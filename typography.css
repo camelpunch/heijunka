@@ -1,0 +1,16 @@
+h1 {
+  font-size:116%;
+  margin-bottom:1em
+}
+
+h2 {
+  font-size:108%
+}
+
+li.story .content ol li {
+  font-size:85%
+}
+
+li.story h3 {
+  text-decoration:underline
+}

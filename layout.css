@@ -1,0 +1,32 @@
+body {
+  margin:15px
+}
+
+body>div {
+  float:left;
+}
+
+div.stories {
+  border-width:1px;
+  border-style:solid;
+  min-height:400px
+}
+
+div#backlog, div#completed_stories {
+  width:24%
+}
+
+div#roles {
+  width:50%
+}
+
+div#roles>ol>li {
+  max-width:200px
+}
+
+li.story {
+  border-width:1px;
+  border-style:solid;
+  overflow:hidden
+}
+
