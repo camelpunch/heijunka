@@ -28,8 +28,9 @@ function Role(element) {
   this.element = element;
   this.name = $(element).parents('ol').find('h2').html(); 
 
-  if ($.inArray(this.element.id, Role.droppableElementIds) == -1) {
-    Role.droppableElementIds.push(this.element.id);
+  if ($.inArray(this.element, Role.droppableElements) == -1) {
+    Role.droppableElements.push(this.element);
+
     $(element).droppable({
       hoverClass: 'hover',
       tolerance: 'pointer',
@@ -44,7 +45,7 @@ function Role(element) {
     });
   }
 }
-Role.droppableElementIds = [];
+Role.droppableElements = [];
 
 // completed stories singleton
 function CompletedStories() {
