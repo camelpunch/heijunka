@@ -1,37 +1,51 @@
-$(document).ready(function() {
+$(document).ready( function() {
   // add ol to all empty story divs
-  $('#roles .stories').each( function() {
+  $('#roles .stories').each( function(i) {
     if (!$(this).find('ol')[0]) {
-      $(this).append('<ol></ol>');
+      $(this).append('<ol id="role_stories_list_' + i + '"></ol>');
     }
   });
 
-  // on click, move any story to the next role for now
+  // instantiate objects with HTML elements
   $('.story').each( function() { new Story(this) });
-  $('#roles>ol>li').each( function() { new Role(this) });
+  $('#roles .stories>ol').each( function() { new Role(this) });
 });
 
 // story class
 function Story(element) {
-  $(element).click( Story.move );
-}
-Story.move = function() {
-  console.log('moving');
-  var story = $(this).remove();
-
-  $('#role_development .stories ol').append(story);
-  $(this).click(Story.move);
-  return false;
+  $(element).draggable({
+    cursor: 'pointer',
+    revert: 'invalid'
+  });
 }
 
 // backlog singleton
-var Backlog = {
+function Backlog() {
 }
 
 // role class
 function Role(element) {
-  this.name = $(element).find('h2').html(); 
-  console.log(this.name);
+  this.element = element;
+  this.name = $(element).parents('ol').find('h2').html(); 
+
+  if ($.inArray(this.element.id, Role.droppableElementIds) == -1) {
+    Role.droppableElementIds.push(this.element.id);
+    $(element).droppable({
+      hoverClass: 'hover',
+      tolerance: 'pointer',
+      drop: function(event, ui) {
+        var storyElement = ui.draggable;
+
+        storyElement.remove();
+
+        $(this).append(storyElement);
+        storyElement.css('position', 'static');
+      }
+    });
+  }
 }
+Role.droppableElementIds = [];
 
 // completed stories singleton
+function CompletedStories() {
+}

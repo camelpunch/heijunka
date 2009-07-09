@@ -1,8 +1,7 @@
 body {
-  margin:15px
 }
 
-body>div {
+body>div>div {
   float:left;
 }
 
@@ -13,15 +12,19 @@ div.stories {
 }
 
 div#backlog, div#completed_stories {
-  width:24%
-}
-
-div#roles {
-  width:50%
+  width:200px
 }
 
 div#roles>ol>li {
-  max-width:200px
+  width:200px
+}
+
+div#roles .stories>ol {
+  height:400px
+}
+
+div#roles .stories>ol>li {
+  float:none
 }
 
 li.story {
