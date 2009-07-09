@@ -2,3 +2,6 @@ li.story {
   background:#fff
 }
 
+.stories>ol {
+  border:2px solid #f00
+}

@@ -1,52 +1,41 @@
 $(document).ready( function() {
-  // add ol to all empty story divs
-  $('#roles .stories').each( function(i) {
-    if (!$(this).find('ol')[0]) {
-      $(this).append('<ol id="role_stories_list_' + i + '"></ol>');
-    }
-  });
-
   // instantiate objects with HTML elements
-  $('.story').each( function() { new Story(this) });
-  $('#roles .stories>ol').each( function() { new Role(this) });
+  $('.stories>ol').each( function() { new Role(this) });
+  Role.enableAll();
 });
-
-// story class
-function Story(element) {
-  $(element).draggable({
-    cursor: 'pointer',
-    revert: 'invalid'
-  });
-}
-
-// backlog singleton
-function Backlog() {
-}
 
 // role class
 function Role(element) {
   this.element = element;
-  this.name = $(element).parents('ol').find('h2').html(); 
+  this.name = $(this.element).parents('div').find('h2').html(); 
+  console.log('new role: ' + this.name);
 
-  if ($.inArray(this.element, Role.droppableElements) == -1) {
-    Role.droppableElements.push(this.element);
+  if ($.inArray(this, Role.all) == -1) Role.all.push(this);
+}
+Role.all = [];
+Role.enableAll = function() {
+  $(Role.all).each( function() {
+    this.connectedSelector = this.getConnectedSelector();
 
-    $(element).droppable({
-      hoverClass: 'hover',
-      tolerance: 'pointer',
-      drop: function(event, ui) {
-        var storyElement = ui.draggable;
-
-        storyElement.remove();
-
-        $(this).append(storyElement);
-        storyElement.css('position', 'static');
+    $(this.element).sortable({
+      connectWith: this.connectedSelector,
+      receive: function(event, ui) {
+        console.log(this, 'received', ui.item, 'from', ui.sender);
       }
     });
+
+    console.log(this.name + ' is draggable to ' + this.connectedSelector);
+  });
+}
+Role.prototype = {
+  getConnectedSelector: function() {
+    if (this.name == 'Backlog') {
+      return '#role_development .stories>ol,#completed_stories .stories>ol';
+    } else if (this.name == 'Development') {
+      return '#completed_stories .stories>ol,#backlog .stories>ol';
+    } else if (this.name == 'Completed Stories') {
+      return '#backlog .stories>ol,#role_development .stories>ol';
+    }
   }
 }
-Role.droppableElements = [];
 
-// completed stories singleton
-function CompletedStories() {
-}

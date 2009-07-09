@@ -1,6 +1,3 @@
-body {
-}
-
 body>div>div {
   float:left;
 }
@@ -19,8 +16,8 @@ div#roles>ol>li {
   width:200px
 }
 
-div#roles .stories>ol {
-  height:400px
+.stories>ol {
+  height:400px;
 }
 
 div#roles .stories>ol>li {
