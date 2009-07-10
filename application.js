@@ -7,18 +7,18 @@ $(document).ready( function() {
   });
 
   // instantiate objects with HTML elements
-  $('.stories>ol').each( function() { new Role(this) });
+  $('.role').each( function() { new Role(this) });
   Role.enableAll();
 
   // activate new role link
   $('a[href="/roles/new"]').click(Role.newFromName);
-    
 });
 
 // role class
 function Role(element) {
   this.element = element;
-  this.name = $(this.element).parents('.role').find('h2').html(); 
+  this.sortableElement = $(this.element).find('.stories>ol');
+  this.name = $(this.element).find('h2').html(); 
   if ($.inArray(this, Role.all) == -1) {
     Role.all.push(this);
     console.log('new role: ' + Role.all.length);
@@ -30,7 +30,7 @@ Role.newFromName = function() {
 
   if (name) {
     $('#roles>ol').append('<li class="role"><h2>'+name+'</h2><div class="stories><ol></ol></div></li>');
-    new Role($('#roles>ol>li:last-child>.stories>ol'));
+    new Role($('#roles>ol>li:last-child'));
     Role.enableAll();
     return false;
   } else {
@@ -41,7 +41,7 @@ Role.newFromName = function() {
 }
 Role.enableAll = function() {
   $(Role.all).each( function() {
-    $(this.element).sortable({
+    $(this.sortableElement).sortable({
       connectWith: '.role .stories>ol',
       receive: function(event, ui) {
         console.log(this, 'received', ui.item, 'from', ui.sender);
