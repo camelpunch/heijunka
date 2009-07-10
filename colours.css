@@ -1,7 +1,11 @@
 li.story {
+  background:#ccc
+}
+
+li.story>div {
   background:#fff
 }
 
-.stories>ol {
-  border:2px solid #f00
+div.stories {
+  background:#ccc
 }

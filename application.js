@@ -1,41 +1,52 @@
 $(document).ready( function() {
+  // add ol to all empty story divs
+  $('.stories').each( function(i) {
+    if (!$(this).find('ol')[0]) {
+      $(this).append('<ol></ol>');
+    }
+  });
+
   // instantiate objects with HTML elements
   $('.stories>ol').each( function() { new Role(this) });
   Role.enableAll();
+
+  // activate new role link
+  $('a[href="/roles/new"]').click(Role.newFromName);
+    
 });
 
 // role class
 function Role(element) {
   this.element = element;
-  this.name = $(this.element).parents('div').find('h2').html(); 
-  console.log('new role: ' + this.name);
-
-  if ($.inArray(this, Role.all) == -1) Role.all.push(this);
+  this.name = $(this.element).parents('.role').find('h2').html(); 
+  if ($.inArray(this, Role.all) == -1) {
+    Role.all.push(this);
+    console.log('new role: ' + Role.all.length);
+  }
 }
 Role.all = [];
+Role.newFromName = function() {
+  var name = prompt('Role name');
+
+  if (name) {
+    $('#roles>ol').append('<li class="role"><h2>'+name+'</h2><div class="stories><ol></ol></div></li>');
+    new Role($('#roles>ol>li:last-child>.stories>ol'));
+    Role.enableAll();
+    return false;
+  } else {
+    Role.newFromName();     
+  }
+
+  return false
+}
 Role.enableAll = function() {
   $(Role.all).each( function() {
-    this.connectedSelector = this.getConnectedSelector();
-
     $(this.element).sortable({
-      connectWith: this.connectedSelector,
+      connectWith: '.role .stories>ol',
       receive: function(event, ui) {
         console.log(this, 'received', ui.item, 'from', ui.sender);
       }
     });
-
-    console.log(this.name + ' is draggable to ' + this.connectedSelector);
   });
-}
-Role.prototype = {
-  getConnectedSelector: function() {
-    if (this.name == 'Backlog') {
-      return '#role_development .stories>ol,#completed_stories .stories>ol';
-    } else if (this.name == 'Development') {
-      return '#completed_stories .stories>ol,#backlog .stories>ol';
-    } else if (this.name == 'Completed Stories') {
-      return '#backlog .stories>ol,#role_development .stories>ol';
-    }
-  }
 }
 
