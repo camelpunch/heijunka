@@ -1,6 +1,6 @@
 $(document).ready( function() {
-  // add ol to all empty story divs
-  $('.stories').each( function(i) {
+  // add ol to all empty story divs and role div
+  $('.stories, #roles').each( function(i) {
     if (!$(this).find('ol')[0]) {
       $(this).append('<ol></ol>');
     }
@@ -19,6 +19,12 @@ function Role(element) {
   this.element = element;
   this.sortableElement = $(this.element).find('.stories>ol');
   this.name = $(this.element).find('h2').html(); 
+
+  if ($.inArray(this.name, Role.names()) > -1) {
+    Role.destroy(this.element);
+    return false;
+  }
+
   if ($.inArray(this, Role.all) == -1) {
     Role.all.push(this);
     console.log('new role: ' + Role.all.length);
@@ -35,6 +41,12 @@ Role.newFromName = function() {
   }
 
   return false;
+}
+Role.names = function() {
+  return $.map(Role.all, function(role) { return role.name });
+}
+Role.destroy = function(element) {
+  $(element).remove(); 
 }
 Role.enableAll = function() {
   $(Role.all).each( function() {
