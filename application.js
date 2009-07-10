@@ -32,12 +32,9 @@ Role.newFromName = function() {
     $('#roles>ol').append('<li class="role"><h2>'+name+'</h2><div class="stories><ol></ol></div></li>');
     new Role($('#roles>ol>li:last-child'));
     Role.enableAll();
-    return false;
-  } else {
-    Role.newFromName();     
   }
 
-  return false
+  return false;
 }
 Role.enableAll = function() {
   $(Role.all).each( function() {

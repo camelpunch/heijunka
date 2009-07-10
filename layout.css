@@ -2,8 +2,9 @@ body {
   margin:15px
 }
 
-body>div>div {
+.role {
   float:left;
+  margin:0 5px
 }
 
 div.stories {
@@ -16,8 +17,6 @@ div#backlog, div#completed_stories {
 
 div#roles>ol>li {
   width:200px;
-  float:left;
-  margin:0 5px
 }
 
 .stories>ol {
