@@ -4,15 +4,21 @@ body {
 
 .role {
   float:left;
-  margin:0 5px
+  margin:0 5px;
 }
 
 div.stories {
+  border-width:1px;
+  border-style:solid;
   min-height:400px
 }
 
 div#backlog, div#completed_stories {
-  width:200px
+  width:200px;
+}
+
+div#backlog>div.stories>ol, div#completed_stories>div.stories>ol {
+  height:400px
 }
 
 div#roles>ol>li {
@@ -20,8 +26,21 @@ div#roles>ol>li {
 }
 
 .stories>ol {
-  height:400px;
   padding:10px
+}
+div.active.stories {
+  min-height:280px
+}
+div.active.stories>ol {
+  height:280px
+}
+
+div.buffer.stories {
+  margin-top:10px;
+  min-height:108px
+}
+div.buffer.stories>ol {
+  height:88px
 }
 
 div#roles .stories>ol>li {
