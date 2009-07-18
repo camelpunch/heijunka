@@ -6,10 +6,12 @@ task :default do
   couch = CouchRest.new
   database = couch.database! 'heijunka'
 
-  javascript = database.get 'javascript'
+  %w(javascripts stylesheets).each do |document_name|
+    document = database.get document_name
 
-  Dir['request.js'].each do |filename|
-    file_path = "/heijunka/javascript/#{filename}"
-    javascript.put_attachment filename, File.read(filename)
+    Dir["#{document_name}/*"].each do |filename|
+      file_path = "/heijunka/#{document_name}/#{filename}"
+      document.put_attachment filename, File.read(filename)
+    end
   end
 end

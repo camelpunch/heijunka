@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+last_ctime = nil
+loop do
+  current_ctime = ""
+  %w(javascripts stylesheets).each do |dir_name|
+    current_ctime << File.stat(dir_name).ctime.to_s
+  end
+  if current_ctime != last_ctime
+    print "\rUploading    "
+    $stdout.flush
+    `rake`
+  else
+    print "\rNot Uploading"
+    $stdout.flush
+  end
+  last_ctime = current_ctime
+  sleep 0.5
+end
