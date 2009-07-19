@@ -17,11 +17,16 @@ function Role(element) {
 }
 Role.all = [];
 Role.buildFromPrompt = function() {
-  var request = new Request('New Role', [
-    {label: 'Name', name: 'name', type: 'text', value: ''}
-  ]);
+  var request = new Request({
+    title: 'New Role', 
+    elements: [
+      {label: 'Name', name: 'name', type: 'text', value: ''}
+    ],
+    submit: function() {
+      Role.build($('#request #name').val());
+    }
+  });
 
-  if (request.params.name) Role.build(request.params.name);
   return false;
 }
 Role.build = function(name) {
