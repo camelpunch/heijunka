@@ -1,17 +1,15 @@
 function Request(options) {
-  $('#request').remove();
+  $('form#request').remove();
 
   $('body').append(
-    '<div id="request">'+
+    '<form id="request">'+
     '<h2>'+options.title+'</h2>'+
-    '<form>'+
-    '</form>'+
-    '</div>'
+    '</form>'
   );
 
   $(options.elements).each( function() {
     if (this.type == 'text') {
-      $('#request form').append(
+      $('form#request').append(
         '<p>'+
         '<label for="'+this.name+'">'+this.label+'</label>'+
         '<input id="'+this.name+'" type="text" name="'+this.name+'" value="'+this.value+'" />'+
@@ -20,11 +18,11 @@ function Request(options) {
     }
   });
 
-  $('#request form input')[0].focus();
+  $('form#request input')[0].focus();
 
-  $('#request form').submit( function() {
+  $('form#request').submit( function() {
     options.submit(); 
-    $('#request').remove();
+    $(this).remove();
     return false;
   });
 }

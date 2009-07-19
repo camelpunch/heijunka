@@ -11,7 +11,7 @@ $(document).ready( function() {
   Role.enableAll();
 
   // activate new role link
-  $('a[href="/roles/new"]').click(Role.buildFromPrompt);
+  $('a[href="/roles/new"]').click(Role.create);
 
   // activate new story link
   $('a[href="/stories/new"]').click(Story.buildFromPrompt);

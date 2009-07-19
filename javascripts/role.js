@@ -1,3 +1,4 @@
+// constructor expects element to exist
 function Role(element) {
   this.element = element;
   this.sortableElement = $(this.element).find('.stories>ol');
@@ -16,7 +17,8 @@ function Role(element) {
   }
 }
 Role.all = [];
-Role.buildFromPrompt = function() {
+// prompts user for name and builds
+Role.create = function() {
   var request = new Request({
     title: 'New Role', 
     elements: [
@@ -29,6 +31,7 @@ Role.buildFromPrompt = function() {
 
   return false;
 }
+// builds a role element and calls constructor
 Role.build = function(name) {
   $('#roles>ol').append(
       '<li class="role">'+
