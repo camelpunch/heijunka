@@ -9,7 +9,7 @@ loop do
   if current_ctime != last_ctime
     print "\rUploading    "
     $stdout.flush
-    `rake`
+    `rake load`
   else
     print "\rNot Uploading"
     $stdout.flush

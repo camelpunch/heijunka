@@ -8,7 +8,7 @@ MIME_TYPES = {
   '.css' => 'text/css',
 }
 
-task :default do
+task :load do
   couch = CouchRest.new
   database = couch.database! 'heijunka'
 
