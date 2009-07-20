@@ -13,7 +13,7 @@ function Role(element) {
   // keep all new roles in Role.all
   if ($.inArray(this, Role.all) == -1) {
     Role.all.push(this);
-    console.log('new role: ' + Role.all.length);
+    //console.log('new role: ' + Role.all.length);
   }
 }
 Role.all = [];
@@ -55,7 +55,7 @@ Role.enableAll = function() {
 }
 Role.receive = function(event, ui) {
   // TODO: disallow dragging if role has reached limit
-  console.log($(this).parent().attr('class'), 'received', ui.item, 'from', ui.sender);
+  //console.log($(this).parent().attr('class'), 'received', ui.item, 'from', ui.sender);
 }
 Role.prototype = {
   enable: function() {
