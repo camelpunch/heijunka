@@ -22,7 +22,7 @@ Role.create = function() {
   var request = new Request({
     title: 'New Role', 
     elements: [
-      {label: 'Name', name: 'name', type: 'text', value: ''}
+      {label: 'Name for role', name: 'name', type: 'text', value: ''}
     ],
     submit: function() {
       Role.build($('#request #name').val());
