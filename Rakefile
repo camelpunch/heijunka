@@ -11,7 +11,7 @@ MIME_TYPES = {
 task :default => [:test]
 
 task :test do
-  ruby "#{`which cucumber`.strip} features"
+  ruby "-S cucumber features"
 end
 
 task :load do
