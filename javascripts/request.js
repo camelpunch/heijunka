@@ -4,12 +4,13 @@ function Request(options) {
   $('body').append(
     '<form id="request">'+
     '<h2>'+options.title+'</h2>'+
+    '<p><input type="submit" value="'+options.submitButtonText+'" /></p>'+
     '</form>'
   );
 
   $(options.elements).each( function() {
     if (this.type == 'text') {
-      $('form#request').append(
+      $('form#request h2').after(
         '<p>'+
         '<label for="'+this.name+'">'+this.label+'</label>'+
         '<input id="'+this.name+'" type="text" name="'+this.name+'" value="'+this.value+'" />'+

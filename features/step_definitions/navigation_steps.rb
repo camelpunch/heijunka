@@ -11,6 +11,10 @@ When /^I fill in '(.*)' with '(.*)'$/ do |label, text|
   @@browser.text_field(:id, id).value = text
 end
 
+When /^I press '(.*)'$/ do |button_text|
+  @@browser.button(button_text).click
+end
+
 Then /^I should see '(.*)'$/ do |text|
   @@browser.contains_text(text).should_not be_nil
 end

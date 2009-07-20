@@ -24,6 +24,7 @@ Role.create = function() {
     elements: [
       {label: 'Name for role', name: 'name', type: 'text', value: ''}
     ],
+    submitButtonText: 'Create',
     submit: function() {
       Role.build($('#request #name').val());
     }
