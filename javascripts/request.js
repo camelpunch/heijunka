@@ -9,14 +9,23 @@ function Request(options) {
   );
 
   $(options.elements).each( function() {
+    var content;
+
     if (this.type == 'text') {
-      $('form#request h2').after(
-        '<p>'+
-        '<label for="'+this.name+'">'+this.label+'</label>'+
-        '<input id="'+this.name+'" type="text" name="'+this.name+'" value="'+this.value+'" />'+
-        '</p>'
-      );
+      content = '<p>'+
+                '<label for="'+this.name+'">'+this.label+'</label>'+
+                '<input id="'+this.name+'" type="text" name="'+this.name+'" value="'+this.value+'" />'+
+                '</p>';
+    } else if (this.type == 'textarea') {
+      content = '<p>'+
+                '<label for="'+this.name+'">'+this.label+'</label>'+
+                '<textarea id="'+this.name+'" name="'+this.name+'">'+
+                this.value+
+                '</textarea>'+
+                '</p>';
     }
+
+    $('form#request input[type="submit"]').parents('p').before(content);
   });
 
   $('form#request input')[0].focus();
