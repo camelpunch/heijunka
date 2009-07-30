@@ -7,7 +7,7 @@ Feature: Drag Stories
     Given I have a role, 'Development'
     And story 'New design' is in the backlog
     And I am on the homepage
-    When I drag 'New design' to 'Development'
+    When I drag story 'New design' to role 'Development'
     And I reload the page
     Then I should see that 'New design' is assigned to 'Development'
 
