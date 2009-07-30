@@ -14,6 +14,8 @@ require 'ruby-debug'
   )
 @@browser.start_new_browser_session
 
+@@browser.get_eval('window.resizeTo(1280,800)')
+
 at_exit do
   @@browser.close_current_browser_session
 end
