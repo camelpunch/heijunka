@@ -3,8 +3,13 @@ require 'selenium/client'
 require 'couchrest'
 require 'ruby-debug'
 
-@@roles = CouchRest.database! 'roles'
-@@stories = CouchRest.database! 'stories'
+def roles
+  @@roles ||= CouchRest.database! 'roles'
+end
+
+def stories
+  @@stories ||= CouchRest.database! 'stories'
+end
 
 @@browser = Selenium::Client::Driver.new(
     :host => 'localhost', 
@@ -18,5 +23,17 @@ require 'ruby-debug'
 
 at_exit do
   @@browser.close_current_browser_session
+  roles
+  stories
+end
+
+Before do
+  roles.delete!
+  @@roles = nil
+  roles
+
+  stories.delete!
+  @@stories = nil
+  stories
 end
 
