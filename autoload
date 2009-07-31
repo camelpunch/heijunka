@@ -14,7 +14,8 @@ loop do
     `rake load`
     last_uploaded_at = Time.now
   else
-    print "\rLast uploaded at #{last_uploaded_at}"
+    distance_in_seconds = ((Time.now - last_uploaded_at).abs).round
+    print "\rLast uploaded #{distance_in_seconds} seconds ago"
     $stdout.flush
   end
   last_ctime = current_ctime
