@@ -1,17 +1,20 @@
 #!/usr/bin/env ruby
 
 last_ctime = nil
+last_uploaded_at = nil
 loop do
   current_ctime = ""
-  %w(javascripts stylesheets).each do |dir_name|
+  Dir['**/'].each do |dir_name|
     current_ctime << File.stat(dir_name).ctime.to_s
   end
   if current_ctime != last_ctime
-    print "\rUploading    "
+    print "\r                                                                   "
+    print "\rUploading"
     $stdout.flush
     `rake load`
+    last_uploaded_at = Time.now
   else
-    print "\rNot Uploading"
+    print "\rLast uploaded at #{last_uploaded_at}"
     $stdout.flush
   end
   last_ctime = current_ctime
