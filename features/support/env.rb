@@ -14,7 +14,7 @@ end
 @@browser = Selenium::Client::Driver.new(
     :host => 'localhost', 
     :port => 4444,
-    :browser => '*firefox', 
+    :browser => '*opera', 
     :url => 'http://localhost:5984'
   )
 @@browser.start_new_browser_session
