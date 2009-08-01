@@ -8,5 +8,5 @@ Feature: Create Roles
     When I follow 'New Role'
     And I fill in 'Name for role' with 'Development'
     And I press 'Create'
-    Then I should see a new role, 'Development'
+    Then I should see the 'Development' role
 
