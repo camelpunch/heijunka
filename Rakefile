@@ -31,11 +31,15 @@ task :load_views do
     map_path = File.join(view_path, 'map.js')
     reduce_path = File.join(view_path, 'reduce.js')
 
-    document.merge!(
-      'views' => {
-        view_name => {}
-      }
-    )
+    if document['views']
+      document['views'][view_name] = {}
+    else
+      document.merge!(
+        'views' => {
+          view_name => {}
+        }
+      )
+    end
 
     begin
       map_function = File.read(map_path)
