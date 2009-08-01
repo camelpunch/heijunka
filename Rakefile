@@ -14,24 +14,7 @@ task :test do
   ruby "-S cucumber features"
 end
 
-task :load do
-  heijunka = CouchRest.database!('heijunka')
-
-  # static files
-  %w(home javascripts stylesheets).each do |document_name|
-    document = heijunka.get(document_name)
-
-    Dir["#{document_name}/*"].each do |path|
-      filename = File.basename(path)
-      file_path = "/heijunka/#{document_name}/#{filename}"
-      extension = File.extname(path)
-      document.put_attachment filename, File.read(path), {
-        'Content-Type' => MIME_TYPES[extension]
-      }
-    end
-  end
-
-  # views
+task :load_views do
   Dir["design/*/*/views/*"].each do |view_path|
     database_name, design_document_name, view_name = 
       view_path.scan(/design\/(.*)\/(.*)\/views\/(.*)$/).first
@@ -68,5 +51,25 @@ task :load do
 
     database.save_doc(document)
   end
+end
+
+task :load do
+  heijunka = CouchRest.database!('heijunka')
+
+  # static files
+  %w(home javascripts stylesheets).each do |document_name|
+    document = heijunka.get(document_name)
+
+    Dir["#{document_name}/*"].each do |path|
+      filename = File.basename(path)
+      file_path = "/heijunka/#{document_name}/#{filename}"
+      extension = File.extname(path)
+      document.put_attachment filename, File.read(path), {
+        'Content-Type' => MIME_TYPES[extension]
+      }
+    end
+  end
+  
+  Rake::Task['load_views'].execute
 end
 
