@@ -35,5 +35,7 @@ Before do
   stories.delete!
   @@stories = nil
   stories
+
+  `rake load_views`
 end
 
