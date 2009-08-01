@@ -13,12 +13,7 @@ $(document).ready( function() {
   Role.enableAll();
 
   // build stories from backlog
-  var stories = documents.all('stories').rows;
-
-  $(stories).each( function() {
-    var story = documents.get('stories/' + this.id);
-    Story.build(story.name, story.content);
-  });
+  Story.buildAllForRoleId('backlog');
 
   // activate new role link
   $('a[href="/roles/new"]').click(Role.create);

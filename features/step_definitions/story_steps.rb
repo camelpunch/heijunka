@@ -1,6 +1,7 @@
 Given /^story '(.*)' is in the backlog$/ do |story_name|
   story = {
     :name => story_name,
+    :role_id => 'backlog',
     :content => [
       "As the #{story_name} story", 'I want to be created', 'So that my master can test'
     ]
