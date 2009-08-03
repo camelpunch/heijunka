@@ -47,6 +47,7 @@ Role.create = function() {
         processData: false,
         type: 'POST',
         url: '/roles',
+        dataType: 'json',
         data: JSON.stringify({name: name}),
         success: function(data) {
           new Role({_id: data.id, name: name});

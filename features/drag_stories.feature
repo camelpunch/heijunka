@@ -19,3 +19,5 @@ Feature: Drag Stories
     And I press 'Create'
     When I drag story 'Log in system' to role 'Test role'
     Then I should see that 'Log in system' is assigned to 'Test role'
+    When I reload the homepage
+    Then I should see that 'Log in system' is assigned to 'Test role'
