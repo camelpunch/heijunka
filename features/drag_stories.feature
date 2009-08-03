@@ -11,3 +11,11 @@ Feature: Drag Stories
     And I reload the homepage
     Then I should see that 'New design' is assigned to 'Development'
 
+  Scenario: Drag story to new role
+    Given story 'Log in system' is in the backlog
+    And I am on the homepage
+    When I follow 'New Role'
+    And I fill in 'Name for role' with 'Test role'
+    And I press 'Create'
+    When I drag story 'Log in system' to role 'Test role'
+    Then I should see that 'Log in system' is assigned to 'Test role'
