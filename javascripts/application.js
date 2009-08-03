@@ -21,7 +21,13 @@ $(document).ready( function() {
   // activate new story link
   $('a[href="/stories/new"]').click(Story.create);
 
-  // temporarily add starter role
-  Role.build('Starter');
+  // build roles from database
+  $.getJSON('/roles/_design/groups/_view/all', function(data) {
+    if (data.rows[0]) {
+      $(data.rows[0].value).each( function() {
+        Role.build(this.name);
+      });
+    }
+  });
 });
 

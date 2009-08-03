@@ -2,7 +2,7 @@ Given /^I am on the homepage$/ do
   @@browser.open 'http://localhost:5984/heijunka/home/index.html'
 end
 
-When /^I go to the homepage$/ do
+When /^I (go to|reload) the homepage$/ do |arg|
   @@browser.open 'http://localhost:5984/heijunka/home/index.html'
 end
 

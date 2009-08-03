@@ -12,12 +12,9 @@ Given /^story '(.*)' is in the backlog$/ do |story_name|
 end
 
 When /^I drag story '(.*)' to role '(.*)'$/ do |story_name, role_name|
-  story = '//h3[text()="'+story_name+'"]
-  /ancestor::li[@class="story"]'
-
-  role = '//h2[text()="'+role_name+'"]
-  /parent::li[@class="role"]
-  /div[@class="stories active"]'
+  sleep 0.2
+  story = '//h3[text()="'+story_name+'"]/ancestor::li'
+  role = '//h2[text()="'+role_name+'"]/parent::li/div'
 
   @@browser.drag_and_drop_to_object(story, role)
 end

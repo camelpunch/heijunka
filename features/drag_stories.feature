@@ -8,6 +8,6 @@ Feature: Drag Stories
     And story 'New design' is in the backlog
     And I am on the homepage
     When I drag story 'New design' to role 'Development'
-    And I reload the page
+    And I reload the homepage
     Then I should see that 'New design' is assigned to 'Development'
 
