@@ -23,6 +23,7 @@ When /^I drag story '(.*)' to role '(.*)'$/ do |story_name, role_name|
 end
 
 Then /^I should see story, '([a-zA-Z ]*)'$/ do |story_name|
+  sleep 0.2
   @@browser.element?('//h3[text()="'+story_name+'"]').should be_true
   @@browser.element?('//li[text()="As the '+story_name+' story"]').should be_true
 end
