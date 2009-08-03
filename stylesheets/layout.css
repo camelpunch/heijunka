@@ -13,11 +13,11 @@ div.stories {
   min-height:400px
 }
 
-div#backlog, div#completed_stories {
+div#role_backlog, div#role_completed_stories {
   width:200px;
 }
 
-div#backlog>div.stories>ol, div#completed_stories>div.stories>ol {
+div#role_backlog>div.stories>ol, div#role_completed_stories>div.stories>ol {
   height:400px
 }
 

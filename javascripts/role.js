@@ -1,22 +1,38 @@
-// constructor expects element to exist
-function Role(element) {
-  this.element = element;
+function Role(doc) {
+  this.doc = doc;
+  this.build();
+
+  this.element = $('#role_'+doc._id);
   this.sortableElement = $(this.element).find('.stories>ol');
-  this.name = $(this.element).find('h2').html(); 
 
   // disallow creation of roles with existing names
-  if ($.inArray(this.name, Role.names()) > -1) {
-    Role.destroy(this.element);
+  if ($.inArray(this.doc.name, Role.names()) > -1) {
+    this.element.remove();
     return false;
   }
 
   // keep all new roles in Role.all
   if ($.inArray(this, Role.all) == -1) {
     Role.all.push(this);
-    //console.log('new role: ' + Role.all.length);
   }
 }
 Role.all = [];
+Role.buildAll = function() {
+  new Role({_id: 'backlog', name: 'Backlog'});
+  new Role({_id: 'completed_stories', name: 'Completed Stories'});
+  $.getJSON('/roles/_design/groups/_view/all', function(data) {
+    $(data.rows).each( function() {
+      new Role(this.value);
+    });
+  });
+}
+Role.find = function(id) {
+  var foundRole;
+  $(Role.all).each( function() {
+    if (this.doc._id == id) foundRole = this;
+  });
+  return foundRole;
+}
 // prompts user for name and builds
 Role.create = function() {
   var request = new Request({
@@ -26,39 +42,46 @@ Role.create = function() {
     ],
     submitButtonText: 'Create',
     submit: function() {
-      Role.build($('#request #name').val());
+      var name = $('#request #name').val();
+      new Role({_id: name, name: name})
     }
   });
 
   return false;
 }
-// builds a role element and calls constructor
-Role.build = function(name) {
-  $('#roles>ol').append(
-      '<li class="role">'+
-      '<h2>'+name+'</h2>'+
-      '<div class="stories active"><ol></ol></div>'+
-      '<div class="stories buffer"><ol></ol></div>'+
-      '</li>');
-  new Role($('#roles>ol>li:last-child'));
-
-  // re-enable all roles so each is draggable to/from
-  Role.enableAll();
-}
 Role.names = function() {
-  return $.map(Role.all, function(role) { return role.name });
-}
-Role.destroy = function(element) {
-  $(element).remove(); 
+  return $.map(Role.all, function(role) { return role.doc.name });
 }
 Role.enableAll = function() {
   $(Role.all).each( function() { this.enable() });
 }
 Role.receive = function(event, ui) {
-  // TODO: disallow dragging if role has reached limit
-  //console.log($(this).parent().attr('class'), 'received', ui.item, 'from', ui.sender);
+  // get story document
+  var currentRoleId = $(this).parents('.role').attr('id').substring(5);
+  var storyId = $(ui.item).attr('id').substring(6);
+
+  $.getJSON('/stories/'+storyId, function(story) {
+    // update story document with new role 
+    story.role_id = currentRoleId;
+    $.ajax({
+      processData: false,
+      type: 'PUT',
+      url: '/stories/'+storyId,
+      data: JSON.stringify(story),
+      success: function() {
+      }
+    });
+  });
 }
 Role.prototype = {
+  build: function() {
+    $('#roles>ol').append(
+        '<li class="role" id="role_'+this.doc._id+'">'+
+        '<h2>'+this.doc.name+'</h2>'+
+        '<div class="stories active"><ol></ol></div>'+
+//        '<div class="stories buffer"><ol></ol></div>'+
+        '</li>');
+  },
   enable: function() {
     $(this.sortableElement).sortable({
       connectWith: '.role .stories>ol',

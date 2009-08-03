@@ -1,9 +1,11 @@
 Given /^I am on the homepage$/ do
   @@browser.open 'http://localhost:5984/heijunka/home/index.html'
+  sleep 0.5
 end
 
 When /^I (go to|reload) the homepage$/ do |arg|
   @@browser.open 'http://localhost:5984/heijunka/home/index.html'
+  sleep 0.5
 end
 
 When /^I follow '(.*)'$/ do |link_text|

@@ -1,13 +1,15 @@
-function Story(element) {
+function Story(doc) {
+  this.doc = doc;
+  this.build();
 }
-Story.buildAllForRoleId = function(roleId) {
-  $.getJSON('/stories/_design/groups/_view/by_role?key="'+roleId+'"', 
+Story.buildAll = function() {
+  $.getJSON('/stories/_design/groups/_view/all', 
             function(data) {
-    if (data.rows[0]) {
-      $(data.rows[0].value).each( function() {
-        Story.build(this.name, this.content);
-      });
-    }
+    $(data.rows).each( function() {
+      new Story(this.value);
+    });
+
+    Role.enableAll();
   });
 }
 Story.create = function() {
@@ -22,32 +24,35 @@ Story.create = function() {
       var documents = $.jqCouch.connection('doc');
       var result;
       var name = $('#request #name').val();
-      var storyDocument = {
+      var doc = {
         name: name,
         content: $('#request #content').val().split('\n'),
         role_id: 'backlog'
       };
-      result = documents.save('stories', storyDocument);
-      if (result['ok']) {
-        Story.build(storyDocument.name, storyDocument.content);
+      result = documents.save('stories', doc);
+      if (result.ok) {
+        doc._id = result.id
+        new Story(doc);
       }
     }
   });
 
   return false;
 }
-// builds a story element and calls constructor
-Story.build = function(name, content) {
-  $('#backlog>.stories>ol').append(
-      '<li class="story">'+
+
+Story.prototype = {
+  build: function() {
+    $('#role_'+this.doc.role_id+'>.stories>ol').append(
+      '<li id="story_'+this.doc._id+'" class="story">'+
         '<div>'+
-          '<h3>'+name+'</h3>'+
+          '<h3>'+this.doc.name+'</h3>'+
           '<div class="content">'+
             '<ol><li>'+
-            content.join('</li><li>') +
+            this.doc.content.join('</li><li>') +
             '</li></ol>'+
           '</div>'+
         '</div>'+
-      '</li>');
-  new Story($('#backlog>.stories>ol>li:last-child'));
+      '</li>'
+    );   
+  }
 }
