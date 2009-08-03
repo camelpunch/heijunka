@@ -60,18 +60,34 @@ end
 task :load do
   heijunka = CouchRest.database!('heijunka')
 
-  # static files
-  %w(home javascripts stylesheets).each do |document_name|
+  # html files
+  %w(home).each do |document_name|
     document = heijunka.get(document_name)
 
     Dir["#{document_name}/*"].each do |path|
       filename = File.basename(path)
-      file_path = "/heijunka/#{document_name}/#{filename}"
       extension = File.extname(path)
       document.put_attachment filename, File.read(path), {
         'Content-Type' => MIME_TYPES[extension]
       }
     end
+  end
+
+  # js and css
+  %w(javascripts stylesheets).each do |dir_name|
+    document = heijunka.get('static')
+    concatenated = ''
+
+    paths = Dir["#{dir_name}/*"].sort
+    extension = File.extname(paths.first)
+
+    paths.each do |path|
+      concatenated << File.read(path)
+    end
+
+    document.put_attachment dir_name, concatenated, {
+      'Content-Type' => MIME_TYPES[extension]
+    }
   end
   
   Rake::Task['load_views'].execute
