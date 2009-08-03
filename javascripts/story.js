@@ -20,12 +20,17 @@ Story.create = function() {
     submitButtonText: 'Create',
     submit: function() {
       var documents = $.jqCouch.connection('doc');
+      var result;
+      var name = $('#request #name').val();
       var storyDocument = {
-        name: $('#request #name').val(),
-        content: $('#request #content').val().split('\n')
+        name: name,
+        content: $('#request #content').val().split('\n'),
+        role_id: 'backlog'
       };
-      documents.save('stories', storyDocument);
-      Story.build(storyDocument.name, storyDocument.content);
+      result = documents.save('stories', storyDocument);
+      if (result['ok']) {
+        Story.build(storyDocument.name, storyDocument.content);
+      }
     }
   });
 
