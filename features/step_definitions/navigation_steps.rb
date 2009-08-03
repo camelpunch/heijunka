@@ -1,11 +1,11 @@
 Given /^I am on the homepage$/ do
   @@browser.open 'http://localhost:5984/heijunka/home/index.html'
-  sleep 0.5
+  sleep 0.2
 end
 
 When /^I (go to|reload) the homepage$/ do |arg|
   @@browser.open 'http://localhost:5984/heijunka/home/index.html'
-  sleep 0.5
+  sleep 0.2
 end
 
 When /^I follow '(.*)'$/ do |link_text|
@@ -19,6 +19,7 @@ end
 
 When /^I press '(.*)'$/ do |button_text|
   @@browser.click('//input[@value="'+button_text+'"]')
+  sleep 0.2
 end
 
 Then /^I should see '(.*)'$/ do |text|

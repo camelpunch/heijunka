@@ -43,7 +43,15 @@ Role.create = function() {
     submitButtonText: 'Create',
     submit: function() {
       var name = $('#request #name').val();
-      new Role({_id: name, name: name})
+      $.ajax({
+        processData: false,
+        type: 'POST',
+        url: '/roles',
+        data: JSON.stringify({name: name}),
+        success: function(data) {
+          new Role({_id: data.id, name: name});
+        }
+      });
     }
   });
 
