@@ -28,7 +28,7 @@ Then /^I should see story, '([a-zA-Z ]*)'$/ do |story_name|
   @@browser.element?('//li[text()="As the '+story_name+' story"]').should be_true
 end
 
-Then /^I should see story, '([a-zA-Z ]*)' with content '(.*)'$/ do |story_name, content|
+Then /^I should see story, '([^']+)' with content '(.*)'$/ do |story_name, content|
   @@browser.element?('//h3[text()="'+story_name+'"]').should be_true
   @@browser.element?('//li[text()="'+content+'"]').should be_true
 end
