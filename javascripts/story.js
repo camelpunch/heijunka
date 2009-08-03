@@ -3,9 +3,11 @@ function Story(element) {
 Story.buildAllForRoleId = function(roleId) {
   $.getJSON('/stories/_design/groups/_view/by_role?key="'+roleId+'"', 
             function(data) {
-    $(data.rows[0].value).each( function() {
-      Story.build(this.name, this.content);
-    });
+    if (data.rows[0]) {
+      $(data.rows[0].value).each( function() {
+        Story.build(this.name, this.content);
+      });
+    }
   });
 }
 Story.create = function() {
