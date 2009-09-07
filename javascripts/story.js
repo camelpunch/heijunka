@@ -21,19 +21,24 @@ Story.create = function() {
     ],
     submitButtonText: 'Create',
     submit: function() {
-      var documents = $.jqCouch.connection('doc');
-      var result;
       var name = $('#request #name').val();
       var doc = {
         name: name,
         content: $('#request #content').val().split('\n'),
         role_id: 'backlog'
       };
-      result = documents.save('stories', doc);
-      if (result.ok) {
-        doc._id = result.id
-        new Story(doc);
-      }
+
+      $.ajax({
+        processData: false,
+        type: 'POST',
+        url: '/stories',
+        dataType: 'json',
+        data: JSON.stringify(doc),
+        success: function(data) {
+          doc._id = data.id;
+          new Story(doc);
+        }
+      });
     }
   });
 

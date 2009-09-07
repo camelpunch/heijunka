@@ -6,8 +6,6 @@ $(document).ready( function() {
     }
   });
 
-  var documents = $.jqCouch.connection('doc');
-
   Role.buildAll();
 
   // build all stories
