@@ -12,7 +12,7 @@ Given /^story '(.*)' is in the backlog$/ do |story_name|
 end
 
 When /^I drag story '(.*)' to role '(.*)'$/ do |story_name, role_name|
-  story = '//h3[text()="'+story_name+'"]/ancestor::li'
+  story = '//h3[text()="'+story_name+'"]/ancestor::li[@class="story"]'
   role = '//h2[text()="'+role_name+'"]/following-sibling::div'
 
   @@browser.drag_and_drop_to_object(story, role)
@@ -29,7 +29,9 @@ Then /^I should see story, '([^']+)' with content '(.*)'$/ do |story_name, conte
 end
 
 Then /^I should see that '(.*)' is assigned to '(.*)'$/ do |story_name, role_name|
-  @@browser.element?('//h2[text()="'+role_name+'"]/following-sibling::div//h3[text()="'+story_name+'"]').
-    should be_true
+  present =
+    @@browser.element?('//h2[text()="'+role_name+'"]/following-sibling::div//h3[text()="'+story_name+'"]')
+
+  present.should be_true
 end
 
