@@ -4,6 +4,7 @@ function Role(doc) {
 
   this.element = $('#role_'+doc._id);
   this.sortableElement = $(this.element).find('.stories>ol');
+  this.deleteButton = $(this.element).find('input[value="Delete"]');
 
   // disallow creation of roles with existing names
   if ($.inArray(this.doc.name, Role.names()) > -1) {
@@ -50,7 +51,7 @@ Role.create = function() {
         dataType: 'json',
         data: JSON.stringify({name: name}),
         success: function(data) {
-          new Role({_id: data.id, name: name});
+          new Role({_id: data.id, _rev: data.rev, name: name});
           Role.enableAll();
         }
       });
@@ -87,6 +88,7 @@ Role.prototype = {
   build: function() {
     var html = '<li class="role" id="role_'+this.doc._id+'">'+
         '<h2>'+this.doc.name+'</h2>'+
+        '<input type="submit" value="Delete"/>'+
         '<div class="stories active"><ol></ol></div>'+
 //        '<div class="stories buffer"><ol></ol></div>'+
         '</li>';
@@ -98,6 +100,20 @@ Role.prototype = {
     }
   },
   enable: function() {
+    var rev = this.doc._rev;
+
+    $(this.deleteButton).click( function() {
+      var li = $(this).parents('li');
+      var roleId = li.attr('id').substring(5);
+
+      $.ajax({
+        type: 'DELETE',
+        url: '/roles/'+roleId+'?rev='+rev,
+        success: function() {
+          li.remove()
+        }
+      });
+    });
     $(this.sortableElement).sortable({
       connectWith: '.role .stories>ol',
       receive: Role.receive

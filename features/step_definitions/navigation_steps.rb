@@ -22,7 +22,7 @@ When /^I fill in '(.*)' with '(.*)'$/ do |label, text|
   @@browser.type(id, text)
 end
 
-When /^I press '(.*)'$/ do |button_text|
+When /^I press '([^']*)'$/ do |button_text|
   @@browser.click('//input[@value="'+button_text+'"]')
   sleep 0.2
 end
