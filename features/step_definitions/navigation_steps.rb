@@ -3,9 +3,14 @@ Given /^I am on the homepage$/ do
   sleep 0.2
 end
 
-When /^I (go to|reload) the homepage$/ do |arg|
+When /^I refresh the browser$/ do
+  sleep 2
+  @@browser.refresh
+  sleep 2
+end
+
+When /^I go to the homepage$/ do
   @@browser.open 'http://localhost:5984/heijunka/home/index.html'
-  sleep 0.2
 end
 
 When /^I follow '(.*)'$/ do |link_text|
