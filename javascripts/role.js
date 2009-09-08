@@ -85,12 +85,17 @@ Role.receive = function(event, ui) {
 }
 Role.prototype = {
   build: function() {
-    $('#roles>ol').append(
-        '<li class="role" id="role_'+this.doc._id+'">'+
+    var html = '<li class="role" id="role_'+this.doc._id+'">'+
         '<h2>'+this.doc.name+'</h2>'+
         '<div class="stories active"><ol></ol></div>'+
 //        '<div class="stories buffer"><ol></ol></div>'+
-        '</li>');
+        '</li>';
+    var completedStories = $('#role_completed_stories');
+    if (completedStories[0]) {
+      $('#role_completed_stories').before(html);
+    } else {
+      $('#roles>ol').append(html);
+    }
   },
   enable: function() {
     $(this.sortableElement).sortable({
