@@ -13,7 +13,7 @@ end
 
 When /^I drag story '(.*)' to role '(.*)'$/ do |story_name, role_name|
   story = '//h3[text()="'+story_name+'"]/ancestor::li[@class="story"]'
-  role = '//h2[text()="'+role_name+'"]/following-sibling::div'
+  role = '//h2[text()="'+role_name+'"]/following-sibling::div//ol'
 
   @@browser.drag_and_drop_to_object(story, role)
 end
